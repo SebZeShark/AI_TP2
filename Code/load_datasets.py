@@ -37,6 +37,16 @@ def load_iris_dataset(train_ratio):
     
     # TODO : le code ici pour lire le dataset
     
+    data = f.readlines()[:-2]
+    random.shuffle(data)
+    values = np.array(list(map(lambda x: list(map(lambda y: float(y), x[:15].split(','))), data)))
+    labels = np.array(list(map(lambda x: x[16:-1], data)))
+    cutoff = int(labels.size*train_ratio)
+    train = values[:cutoff]
+    train_labels = labels[:cutoff]
+    test = values[cutoff:]
+    test_labels = labels[cutoff:]
+
     # REMARQUE très importante : 
 	# remarquez bien comment les exemples sont ordonnés dans 
     # le fichier du dataset, ils sont ordonnés par type de fleur, cela veut dire que 
@@ -80,7 +90,7 @@ def load_congressional_dataset(train_ratio):
     # Notez bien qu'on a traduit le symbole "?" pour une valeur numérique
     # Vous pouvez biensur utiliser d'autres valeurs pour ces attributs
     conversion_labels = {'republican' : 0, 'democrat' : 1, 
-                         'n' : 0, 'y' : 1, '?' : 2} 
+                         'n' : 0, '?' : 1, 'y' : 2}
     
     # Le fichier du dataset est dans le dossier datasets en attaché 
     f = open('datasets/house-votes-84.data', 'r')
@@ -88,6 +98,15 @@ def load_congressional_dataset(train_ratio):
 	
     # TODO : le code ici pour lire le dataset
     
+    data = f.readlines()[:-1]
+    random.shuffle(data)
+    values = np.array(list(map(lambda x: list(map(lambda y: conversion_labels[y], x[-32:-1].split(','))), data)))
+    labels = np.array(list(map(lambda x: x[0:-33], data)))
+    cutoff = int(labels.size * train_ratio)
+    train = values[:cutoff]
+    train_labels = labels[:cutoff]
+    test = values[cutoff:]
+    test_labels = labels[cutoff:]
 	
 	# La fonction doit retourner 4 structures de données de type Numpy.
     return (train, train_labels, test, test_labels)
@@ -125,6 +144,16 @@ def load_monks_dataset(numero_dataset):
 	
 	
 	# TODO : votre code ici, vous devez lire les fichiers .train et .test selon l'argument numero_dataset
+
+    f = open('datasets/monks-{}.train'.format(numero_dataset), 'r')
+    train_data = f.readlines()[:-1]
+    f = open('datasets/monks-{}.test'.format(numero_dataset), 'r')
+    test_data = f.readlines()[:-1]
+
+    train = np.array(list(map(lambda x: list(map(lambda y: int(y), x[3:14].split(' '))), train_data)))
+    train_labels = np.array(list(map(lambda x: str(x[1]), train_data)))
+    test = np.array(list(map(lambda x: list(map(lambda y: int(y), x[3:14].split(' '))), test_data)))
+    test_labels = np.array(list(map(lambda x: str(x[1]), test_data)))
 
     # La fonction doit retourner 4 matrices (ou vecteurs) de type Numpy. 
     return (train, train_labels, test, test_labels)
