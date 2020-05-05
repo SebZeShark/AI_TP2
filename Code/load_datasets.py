@@ -150,6 +150,8 @@ def load_monks_dataset(numero_dataset):
     f = open('datasets/monks-{}.test'.format(numero_dataset), 'r')
     test_data = f.readlines()[:-1]
 
+    random.shuffle(train_data)
+    random.shuffle(test_data)
     train = np.array(list(map(lambda x: list(map(lambda y: int(y), x[3:14].split(' '))), train_data)))
     train_labels = np.array(list(map(lambda x: str(x[1]), train_data)))
     test = np.array(list(map(lambda x: list(map(lambda y: int(y), x[3:14].split(' '))), test_data)))
