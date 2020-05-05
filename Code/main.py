@@ -5,6 +5,7 @@ import load_datasets as ld
 from NeuralNet import NeuralNet # importer la classe du Réseau de Neurones
 # importer d'autres fichiers et classes si vous en avez développés
 # importer d'autres bibliothèques au besoin, sauf celles qui font du machine learning
+from Code import DecisionTree, load_datasets
 
 
 def main():
@@ -78,6 +79,7 @@ def main():
         NN_i = NeuralNet(d, n_attr, classes, profondeur=p)
         NN_i.courbe_apprentissage(dataset[0], dataset[1])"""
 
+    print("---------Réseau de neurones-------------")
     for nom, dataset, n_attr, classes, d, p in \
                                         [("Iris", i, 4, ["Iris-setosa", "Iris-versicolor", "Iris-virginica"], 50, 4),
                                          ("Congressional", c, 16, ["democrat", "republican"], 10, 3),
@@ -89,6 +91,35 @@ def main():
             NN_i = NeuralNet(d, n_attr, classes, profondeur=p)
             NN_i.train(dataset[0], dataset[1])
             NN_i.test(dataset[2], dataset[3])
+
+    train_congress, train_labels_congress, test_congress, test_labels_congress = load_datasets.load_congressional_dataset(
+        0.7)
+    treeClassifierCongress = DecisionTree.DecisionTree(dataType="house-votes")
+    treeClassifierCongress.train(train_congress, train_labels_congress)
+    treeClassifierCongress.predict(test_congress[0], test_labels_congress[0])
+
+    print("---------Arbre de décision-------------")
+    print("Iris")
+    train_iris, train_labels_iris, test_iris, test_labels_iris = load_datasets.load_iris_dataset(0.7)
+    tci = DecisionTree.DecisionTree(dataType="iris")
+    tci.train(train_iris, train_labels_iris)
+    tci.test(test_iris, test_labels_iris)
+
+    print("Monk1")
+    train_monk1, train_labels_monk1, test_monk1, test_labels_monk1 = load_datasets.load_monks_dataset(1)
+    tcm1 = DecisionTree.DecisionTree(dataType="MONK")
+    tcm1.train(train_monk1, train_labels_monk1)
+    tcm1.test(test_monk1, test_labels_monk1)
+    print("Monk2")
+    train_monk2, train_labels_monk2, test_monk2, test_labels_monk2 = load_datasets.load_monks_dataset(2)
+    tcm2 = DecisionTree.DecisionTree(dataType="MONK")
+    tcm2.train(train_monk2, train_labels_monk2)
+    tcm1.test(test_monk2, test_labels_monk2)
+    print("Monk3")
+    train_monk3, train_labels_monk3, test_monk3, test_labels_monk3 = load_datasets.load_monks_dataset(3)
+    tcm3 = DecisionTree.DecisionTree(dataType="MONK")
+    tcm3.train(train_monk3, train_labels_monk3)
+    tcm3.test(test_monk3, test_labels_monk3)
 
 
 

@@ -76,7 +76,7 @@ class NeuralNet:  # nom de la class à changer
             somme += i*p
         return self.sigmoid(somme)
 
-    def train(self, train, train_labels, epochs=10):  # vous pouvez rajouter d'autres attribus au besoin
+    def train(self, train, train_labels, epochs=25):  # vous pouvez rajouter d'autres attribus au besoin
         """
         c'est la méthode qui va entrainer votre modèle,
         train est une matrice de taille nxm, avec
